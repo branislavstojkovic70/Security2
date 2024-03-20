@@ -1,4 +1,4 @@
-﻿# HEŠOVANJE LOZINKI
+# HEŠOVANJE LOZINKI
 
 Sa razvojem informacionih sistema i aplikacija javlja se potreba sa očuvanjem privatnosti podataka kako samog sistema, tako i subjektima samog sistema. Najpopularniji način za očuvanje privatnosti i kontrolisani pristup  poverljivim podacima u sistemu je upoteba lozinki. Lozinka često zbog samih loših navika korisnika ili zbog njene jednostavnosti u strukturi može biti jako podložna napadima. S vremenom se pojavio način koji je dosta popravio zaštitu od napada, tako što je smislen mehanizam koji štiti lozinke od njihovog otkrivanja. Ovo se može postići upotrebom različitih kriptografskih algoritama. Osnovna ideja je sledeća: Postoji odgovarajuća *hash* funkcija koja izvornu lozinku pretvara u niz karaktera fiksne dužine. Ovo omogućava da izvorna lozinka, kreirana od strane samog korisnika, bude pohranjena u bazi podataka kao rezultat primene  *hash* funckije. Na taj način subjekti koji imaju pristup bazi podataka neće znati izvornu lozinku klijenta, nego će moći da vide samo njenu heširanu vrednost. Kada se korisnik ponovo prijavljuje na sistem, kako bi izvršio autentifikaciju, on unosi izvornu lozinku, lozinka se algoritmom hešuje i poredi sa vrednošću u bazi. Ako su vrednosti iste smatra se da je korisnik autentifikovan. Mogućnost otkrivanja izvorne lozinke na osnovu heširane vrednosti je proces oktrivanja inverzne *hash* funkcije. Kako bi se ovaj proces znatno otežao vremenom su razvijeni različiti algoritmi koji omogućavaju bolju zaštitu .
 
@@ -6,7 +6,8 @@ Sa razvojem informacionih sistema i aplikacija javlja se potreba sa očuvanjem p
 
 MD5 (*Message-Digest Algorithm*) je algoritam koji je nastao 1991. godine i razvijen je od strane Ronalda Rivesta. Razvijen ja na osnovu MD4 algoritma ali je dosta sigurniji i brži od njega. Dužina digesta ovog algoritma je 128 bita, zbog čega neki kritičari misle da je podložan *force birthday attack* napadima. Danas se relativno retko koristi u kriptografiji za hešovanje lozinki i potpisivanje digitalnih dokumenata, najviše iz razloga što se smatra da je prevaziđen.
 
-![](MD5.png)
+<img src="MD5.png" alt="MD5Hash" style="width: 500px; height: 300px;">
+
 
 Prikaz algoritma. Slika preuzeta iz [2]. 
 
@@ -56,13 +57,14 @@ SHA-256 algoritam (*Secure Hash Algorithm*) je algoritam kreiran od strane Nacio
 - Dužina *hash* vrednosti je 256 bita  ako se koristi SHA-256
 - Ireverzibilnost: sve *hash* vrednosti koje generiše SHA-256 su nepovratn. Originalna vrednost se ne bi trebala dobiti kada ponovo provlačimo vrednost kroz *hash* funkciju.
 
-` `![](SHA256.png)
+<img src="SHA256.png" alt="SHA256 Hash" style="width: 350px; height: 350px;">
 
-`  `Proces heširanja. Slika preuzeta iz [1].
+
+Proces heširanja. Slika preuzeta iz [1].
 
 Na početku algoritma se dodaju dodatni bitovi u poruku tako da dužina poruke bude tačno 64 bita manja od umnoška broja 512. Tokom sabiranja prvi bit treba da bude 1, a ostatak treba da bude popunjen nulama, a zatim se vrši dodavanje dužine originalne poruke u bitovima.  512-bitni ulazni blok se deli na šesnaest 32-bitnih reči, a zatim biva proširen na 64 32-bitne reči kroz niz logičkih operacija. Proširena poruka se zatim obrađuje u petlji od 64 iteracije, pri čemu izlaz jedne iteracije predstavlja ulaz u drugu operaciju. U svakoj iteraciji se generisana *hash* vrednost rotira po određenom obrascu i dodaju se dodatni podaci.  Ceo ciklus se ponavlja sve dok se ne dođe do poslednjeg 512-bitnog bloka a njegov izlaz se smatra konačnom *hash* vrednošću.  
 
-Ranjivost
+### Ranjivost
 
 SHA-256 i SHA-512 su podložni napadima produžetka dužine. Ovi napadi omogućavaju napadaču da dodaju dodatne podatke na kraj originalne poruke, a zatim generišu novu heš-vrednost koja se čini validnom. Ovo može biti problematično jer se originalna poruka može promeniti na način koji nije očigledan prilikom provere heš-vrednosti. Kod SHA-224 i SHA-384, iako su slični SHA-256 i SHA-512, postoji određena poboljšanja koja čine ove napade manje uspešnim. Ipak, napadač može pokušati da pogodi skriveni deo stanja algoritma kako bi izveo napad. Verovatnoća uspeha ovog napada za SHA-224 je 2<sup>-32</sup> što čini da postoji mogućnost napada, ali je verovatnoća veoma mala.
 
