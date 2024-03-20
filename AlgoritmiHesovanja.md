@@ -25,10 +25,10 @@ Iako je MD5 algoritam bio široko korišćen, danas se smatra zastarelim zbog po
 
 *Bcrypt* algoritam je osnovan 1999. godine od strane inženjera *Niels Provos* i *David Mazières.* Osnovna namena ovog algoritma bila je heširanje lozinki. Ovaj algoritam koristi tehniku koja se zove soljenje (*eng. salting*), koja uključuje dodavanje nasumičnih vrednosti koja se zove so svakoj lozinki pre heširanja. So se čuva pored heša, što ga samim tim čini jedinstvenim za lozinku. Ovaj mehanizam sprečava napade na unapred izračunate tabele i obezbeđuje da čak identične lozinke imaju različite hešove. Još jedna karakteristika ovog algortma je *protezanje ključa* pri čemu se kontroliše broj iteracija koje algoritam izvodi. 
 
-| ***INPUT**: (cost, salt, key)*                                                                                                                                                                                             |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ***OUTPUT**: hash*                                                                                                                                                                                                         |
-| <p>*state ← EksBlowfishSetup(cost, salt, key)*</p><p>*ctext ← “OrpheanBeholderScryDoub”* </p><p>***repeat** (64)*</p><p>&nbsp; *ctext ← EncryptECB (state, ctext);*</p><p>***return** Concatenate(cost, salt, ctext);*</p> |
+| ***INPUT**: (cost, salt, key)*                                                                                                                                                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ***OUTPUT**: hash*                                                                                                                                                                                                                                            |
+| <p>*state ← EksBlowfishSetup(cost, salt, key)*</p><p>*ctext ← “OrpheanBeholderScryDoub”* </p><p>***repeat** (64)*</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *ctext ← EncryptECB (state, ctext);*</p><p>***return** Concatenate(cost, salt, ctext);*</p> |
 
 
 
