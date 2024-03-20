@@ -1,4 +1,4 @@
-# HEŠOVANJE LOZINKI
+﻿# HEŠOVANJE LOZINKI
 
 Sa razvojem informacionih sistema i aplikacija javlja se potreba sa očuvanjem privatnosti podataka kako samog sistema, tako i subjektima samog sistema. Najpopularniji način za očuvanje privatnosti i kontrolisani pristup  poverljivim podacima u sistemu je upoteba lozinki. Lozinka često zbog samih loših navika korisnika ili zbog njene jednostavnosti u strukturi može biti jako podložna napadima. S vremenom se pojavio način koji je dosta popravio zaštitu od napada, tako što je smislen mehanizam koji štiti lozinke od njihovog otkrivanja. Ovo se može postići upotrebom različitih kriptografskih algoritama. Osnovna ideja je sledeća: Postoji odgovarajuća *hash* funkcija koja izvornu lozinku pretvara u niz karaktera fiksne dužine. Ovo omogućava da izvorna lozinka, kreirana od strane samog korisnika, bude pohranjena u bazi podataka kao rezultat primene  *hash* funckije. Na taj način subjekti koji imaju pristup bazi podataka neće znati izvornu lozinku klijenta, nego će moći da vide samo njenu heširanu vrednost. Kada se korisnik ponovo prijavljuje na sistem, kako bi izvršio autentifikaciju, on unosi izvornu lozinku, lozinka se algoritmom hešuje i poredi sa vrednošću u bazi. Ako su vrednosti iste smatra se da je korisnik autentifikovan. Mogućnost otkrivanja izvorne lozinke na osnovu heširane vrednosti je proces oktrivanja inverzne *hash* funkcije. Kako bi se ovaj proces znatno otežao vremenom su razvijeni različiti algoritmi koji omogućavaju bolju zaštitu .
 
@@ -6,10 +6,13 @@ Sa razvojem informacionih sistema i aplikacija javlja se potreba sa očuvanjem p
 
 MD5 (*Message-Digest Algorithm*) je algoritam koji je nastao 1991. godine i razvijen je od strane Ronalda Rivesta. Razvijen ja na osnovu MD4 algoritma ali je dosta sigurniji i brži od njega. Dužina digesta ovog algoritma je 128 bita, zbog čega neki kritičari misle da je podložan *force birthday attack* napadima. Danas se relativno retko koristi u kriptografiji za hešovanje lozinki i potpisivanje digitalnih dokumenata, najviše iz razloga što se smatra da je prevaziđen.
 
+<p align="center">
 <img src="MD5.png" alt="MD5Hash" style="width: 500px; height: 300px;">
+</p>
 
-
+<p align="center">
 Prikaz algoritma. Slika preuzeta iz [2]. 
+</p>
 
 OPIS ALGORITMA:
 
@@ -24,6 +27,7 @@ Iako je MD5 algoritam bio široko korišćen, danas se smatra zastarelim zbog po
 ## BCRYPT ALGORITAM
 
 *Bcrypt* algoritam je osnovan 1999. godine od strane inženjera *Niels Provos* i *David Mazières.* Osnovna namena ovog algoritma bila je heširanje lozinki. Ovaj algoritam koristi tehniku koja se zove soljenje (*eng. salting*), koja uključuje dodavanje nasumičnih vrednosti koja se zove so svakoj lozinki pre heširanja. So se čuva pored heša, što ga samim tim čini jedinstvenim za lozinku. Ovaj mehanizam sprečava napade na unapred izračunate tabele i obezbeđuje da čak identične lozinke imaju različite hešove. Još jedna karakteristika ovog algortma je *protezanje ključa* pri čemu se kontroliše broj iteracija koje algoritam izvodi. 
+
 
 | ***INPUT**: (cost, salt, key)*                                                                                                                                                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -57,10 +61,13 @@ SHA-256 algoritam (*Secure Hash Algorithm*) je algoritam kreiran od strane Nacio
 - Dužina *hash* vrednosti je 256 bita  ako se koristi SHA-256
 - Ireverzibilnost: sve *hash* vrednosti koje generiše SHA-256 su nepovratn. Originalna vrednost se ne bi trebala dobiti kada ponovo provlačimo vrednost kroz *hash* funkciju.
 
-<img src="SHA256.png" alt="SHA256 Hash" style="width: 350px; height: 350px;">
+<p align="center">
+<img src="SHA256.png"  alt="SHA256 Hash" style="width: 350px; height: 350px;">
+</p>
 
-
+<p align="center">
 Proces heširanja. Slika preuzeta iz [1].
+</p>
 
 Na početku algoritma se dodaju dodatni bitovi u poruku tako da dužina poruke bude tačno 64 bita manja od umnoška broja 512. Tokom sabiranja prvi bit treba da bude 1, a ostatak treba da bude popunjen nulama, a zatim se vrši dodavanje dužine originalne poruke u bitovima.  512-bitni ulazni blok se deli na šesnaest 32-bitnih reči, a zatim biva proširen na 64 32-bitne reči kroz niz logičkih operacija. Proširena poruka se zatim obrađuje u petlji od 64 iteracije, pri čemu izlaz jedne iteracije predstavlja ulaz u drugu operaciju. U svakoj iteraciji se generisana *hash* vrednost rotira po određenom obrascu i dodaju se dodatni podaci.  Ceo ciklus se ponavlja sve dok se ne dođe do poslednjeg 512-bitnog bloka a njegov izlaz se smatra konačnom *hash* vrednošću.  
 
@@ -79,7 +86,9 @@ Neke dopunjujuće prakse
 
 Ukoliko se koristi heširanje vrednosti upotrebom SHA-256 algoritma, jedna od preporuka je korišćenje generisane soli, tj. nasumično generisanog podatka koji se dodaje lozinki na kraj ili početak, kako bi se izbegla mogućnost pojave dve iste *hash* vrednosti. Konačna *hash* vrednost bi u tom slučaju izgledala ovako:
 
-$SaltedHash = SHA256(password + salt)$
+<p align="center">
+$\SaltedHash = SHA256(password + salt)$
+</p>
 
 Ono na šta treba obratiti pažnju jeste da ne dođe do upotrebe iste soli za različite lozinke. Ukoliko se ista so dodaje različitim lozinkama svaki put, korisnici sa istom lozinkom imaće istu heširanu so, i ako napadač može da pogodi so, moći će vrlo lako da izvrši “*brute-force*” napad.
 
