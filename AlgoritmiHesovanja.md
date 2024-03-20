@@ -6,7 +6,7 @@ Sa razvojem informacionih sistema i aplikacija javlja se potreba sa očuvanjem p
 
 MD5 (*Message-Digest Algorithm*) je algoritam koji je nastao 1991. godine i razvijen je od strane Ronalda Rivesta. Razvijen ja na osnovu MD4 algoritma ali je dosta sigurniji i brži od njega. Dužina digesta ovog algoritma je 128 bita, zbog čega neki kritičari misle da je podložan *force birthday attack* napadima. Danas se relativno retko koristi u kriptografiji za hešovanje lozinki i potpisivanje digitalnih dokumenata, najviše iz razloga što se smatra da je prevaziđen.
 
-![](MDP.png)
+![](MD5.png)
 
 Prikaz algoritma. Slika preuzeta iz [2]. 
 
