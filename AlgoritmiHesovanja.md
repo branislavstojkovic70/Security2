@@ -28,7 +28,7 @@ Iako je MD5 algoritam bio široko korišćen, danas se smatra zastarelim zbog po
 |***INPUT**: (cost, salt, key)*|
 | - |
 |***OUTPUT**: hash*|
-|<p>*state ← EksBlowfishSetup(cost, salt, key)*</p><p>*ctext ← “OrpheanBeholderScryDoub”* </p><p>***repeat** (64)*</p><p>`            `*ctext ← EncryptECB (state, ctext);*</p><p>***return** Concatenate(cost, salt, ctext);*</p>|
+|<p>*state ← EksBlowfishSetup(cost, salt, key)*</p><p>*ctext ← “OrpheanBeholderScryDoub”* </p><p>***repeat** (64)*</p><p>*ctext ← EncryptECB (state, ctext);*</p><p>***return** Concatenate(cost, salt, ctext);*</p>|
 
 
 
