@@ -23,3 +23,82 @@
 |   **Security Misconfiguration**	|   Komponenta nije pravilno konfigurisana za optimalnu zaštitu	|   Neovlašćeni pristup, otkrivanje osetljivih podataka, gubitak integriteta podataka, preuzimanje celog sistema, DoS napadi	|   Održavanje podrazumevanih lozinki i korisničkih naloga, nepotrebne usluge ili funkcionalnosti, nedostatak sigurnosnih zaglavlja ili pogrešno konfigurisana sigurnosna zaglavlja u web aplikacijama, otvoreni portovi koji nisu potrebni za poslovanje aplikacije, zastareli softver i komponente bez najnovijih sigurnosnih patch-eva	|   Redovno ažuriranje i patchovanje, minimalna eksponiranost, promena podrazumevanog podešavanja, sigurnosni pregledi, pravilna konfiguracija zaglavlja, princip najmanjih privilegija, sigurnosna obuka	|
 |   **Cryptographic Issues**	|   Slabosti ili greške u implementaciji kriptografskih funkcija unutar aplikacije ili sistema	|   Kompromitacija osetljivih podataka, gubitak poverljivosti, integriteta i dostupnosti informacija, mogućnosti za razne napade, mogućnost presretanja podataka, izmene podataka, napadi na autentikaciju	|   Korišćenje zastarelih ili slabih kriptografskih algoritama, loše upravljanje kriptografskim ključevima, uključujući nedostatak sigurnog skladištenja, prenos ključeva preko nesigurnih kanala, i nedostatak rotacije ključeva, nedostatak enkripcije za osetljive podatke kako u mirovanju tako i tokom prenosa, neadekvatna implementacija funkcija za proveru integriteta i autentikaciju	|   Korišćenje jakih i savremenih kritografskih algoritama, efikasno upravljanje ključevima, enkriptovanje osetljivih podataka, primena funkcija za proveru integriteta i autentifikaciju, redovna revizija i testiranje	|
 |   **XXE**	|   Aplikacija koja obrađuje XML podatke nepravilno obrađuje reference na spoljne entitete unutar XML dokumenata	|   Pristup fajl sistemima i mrežama, eksfiltracija osetljivih podataka, izvršavanje proizvoljnog koda, izvođenje napada na druge sisteme unutar mreže organizacije	|   Aplikacije koje koriste starije ili nekonfigurisane XML parsere koji implicitno dozvoljavaju obradu spoljnih XML entiteta, loša validacije i sanitacije unosa XML podataka koje aplikacija prima od korisnika ili iz drugih nepouzdanih izvora, konfiguracija XML parsera koja ne ograničava pristup spoljnim resursima ili funkcijama	|   Onemogućavanje obrade spoljnih entiteta, ažuriranje i konfiguracija alata, validacija ulaza, bezbednosni pregledi i testiranja	|
+
+## Anja Petković SV22/2020 zadaci:
+### Login Admin
+- email: admin@juice-sh.op' or 1=1;--
+- password: test
+- Takođe se može ulogovati na ovaj nalog korišćenjem brute force tehnike za lozinku. Lozinka za admin@juice-sh.op je veoma jednostavna: admin123.
+
+|   Naziv klase napada	|   Težina napada	|   Objašnjenje	|   Uticaj ovog napada	|   Ranjivosti koje su uzrok	|   Kontramere	|
+|---	|---	|---	|---	|---	|---	|
+|   Injection	|   2	|   admin@juice-sh.op' or 1=1;-- email je pronađen iz recenzija, a  ' or 1=1;-- je dobijen brutforce metodom sa generalnim tehnikama SQL injection-a	|   Uticaj ovog napada bi mogao biti krađa naloga i kredencijala, kao i izvršavanje operacija za koje je potrebna uloga administratora	|   Ranjivost koja dovodi do ovoga je loša sanitizacija polja za unos email-a i lozinke prilikom login-a	|   Bolja sanitizacija polja i validacija unetih karaktera	|
+
+### Forgotten Developer Backup
+- Rešenje je posetiti sledeći link: http://localhost:3000/ftp/package.json.bak%2500.md
+
+|   Naziv klase napada	|   Težina napada	|   Objašnjenje	|   Uticaj ovog napada	|   Ranjivosti koje su uzrok	|   Kontramere	|
+|---	|---	|---	|---	|---	|---	|
+|   Sensitive Data Exposure	|   4	|   Rešenje je da prvo pronađemo skriveni ftp folder koji nije dobro sakriven, zatim vidimo da se folder package.json.bak ne može tek tako preuzeti, već su dozvoljeni samo .md i .pdf fajlovi za preuzimanje, nakon toga ćemo na kraj linka za preuzimanje dodati %2500.md i simulirati preuzimanje .md datoteke uz dodavanje position null byte: %2500	|   Uticaj ovog napada bi mogao biti preuzimanje dokumenata koja treba da ostanu zaštićena ili pristup podacima koji su poverljivi, kao npr. korišćene biblioteke ovde	|   Ranjivost koja dovodi do ovoga je loša zaštita podataka i dokumenata, a takođe i loša validacija linkova  	|   Bolja validacija uloge prilikom preuzimanja dokumenta i obavezna upotreba tokena prilikom preuzimanja, bolja validacija i sanitizacija linkova za preuzimanje kako bi se izbeglo preuzimanje korišćenjem position null byte: %2500 	|
+
+### Repetitive Registration
+POST /api/Users/ HTTP/1.1
+Host: localhost:3000
+
+    {"email":"admin3@gmail.com",
+    "password":"admin",
+    "passwordRepeat":"admin1",
+    "securityQuestion":{
+        "id":1,
+        "question":"Your eldest siblings middle name?",
+        "createdAt":"2024-04-09T09:52:16.204Z",
+        "updatedAt":"2024-04-09T09:52:16.204Z"},
+        "securityAnswer":"Me"
+    }
+
+|   Naziv klase napada	|   Težina napada	|   Objašnjenje	|   Uticaj ovog napada	|   Ranjivosti koje su uzrok	|   Kontramere	|
+|---	|---	|---	|---	|---	|---	|
+|   Improper Input Validation	|   1	|   Prethodni POST zahtev se može izvršiti upotrebom Burp-a iako imamo u telu "password":"admin", "passwordRepeat":"admin1" koje su različite	|   Uticaj ovog napada bi mogao biti zloupotreba i loš unos kredencijala, kao i zbunjivanje sistema	|   Ranjivost koja dovodi do ovoga je loša validacija na serverskoj strani 	|   Bolja validacija i na klijentskoj i na serverskoj strani za unos lozinke i potvrdu iste, kao i sprečavanje zloupotreba vezanih za slanje zahteva van klijentske aplikacije 	|
+
+### Login Support Team
+- Email support naloga se može pronaći na stranici: http://localhost:3000/#/administration
+- Prilikom rešavanja drugih izazova otkiven je poverljivi dokument http://localhost:3000/ftp/incident-support.kdbx i preuzet pomoću posiposition null byte: %2500
+- Kako ovaj file ima kdbx ekstenziju pomoću aplikacije KeePass ga učitavamo, a to traži master lozinku
+- Do master lozinke se dolazi pretraživanjem main.js i nalaženjem sledećeg teksta: Parola echipei de asistență nu respectă politica corporativă pentru conturile privilegiate! Vă rugăm să schimbați parola în consecință! Kada se ovaj tekst prevede na engleski dobijamo: The password of the support team does not respect the corporate policy for privileged accounts! Please change your password accordingly! RegEx izraz: (?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,30} Brute force metodom dolazimo do ove lozinke: Support2022!
+- Kada dobavimo lozinku i pristup kdbx fajlu, onda možemo da pristupimo lozinki od naloga desnim klikom na taj entry pa na Edit Entry opciju.
+
+|   Naziv klase napada	|   Težina napada	|   Objašnjenje	|   Uticaj ovog napada	|   Ranjivosti koje su uzrok	|   Kontramere	|
+|---	|---	|---	|---	|---	|---	|
+|   Security Misconfiguration	|   6	|   Postupak za rešavanje izazova je opisan iznad	|   Uticaj ovog napada bi mogao biti preuzimanje kontrole nad nalogom ili izvršavanja naredbi koje nisu dozvoljene u aplikaciji, krađa podataka, finansijski gubici i gubitak prava poslovanja	|   Ranjivost koja dovodi do ovoga je loša zaštita podataka i dokumenata, a takođe i slabe lozinke za pristup fajlovima i otkrivanje informacija koje su strogo poverljive  	|   Kontramere su razne ali najvažnija je zaštita strogo poverljivih dokumenata od preuzimanja i ažtita istih od neautorizovanog pristupa. Takođe i postavljanje jakih lozinki na sva mesta u sistemu. 	|
+
+### Kill Chatbot
+-Chatbot je kreiran korišćenjem biblioteke 
+
+    juicy-chat-bot
+-Poruke u ovoj biblioteci se procesuiraju unutar VM konteksta i njegove funkcije 
+
+    process 
+-Komanda evaluira poruke 
+
+    this.factory.run(`users.addUser("${token}", "${name}")`)
+. Ovo se može iskoristiti uključivanjem " i ) u svoje korisničko ime
+
+-Ako neko postavi svoje korisničko ime na 
+
+    admin"); process=null; users.addUser("1337", "test, 
+izvršio bi se sledeći kod:
+
+    users.addUser("token", "admin");
+    process = null;
+    users.addUser("1337", "test")
+
+|   Naziv klase napada	|   Težina napada	|   Objašnjenje	|   Uticaj ovog napada	|   Ranjivosti koje su uzrok	|   Kontramere	|
+|---	|---	|---	|---	|---	|---	|
+|   Vulnerable Components	|   5	|   Postupak za rešavanje izazova je opisan iznad	|   Uticaj ovog napada je onemogućavanje normalnog rada programa	|   Ranjivost koja dovodi do ovoga je korišćenje ranjivih biblioteka i izvorni kod koji nema dobre validacije  	|   Kontramere su razne ali najvažnija je korišćenje biblioteka koje su sigurne i proverene ili wrapovanje koda i validacija ulaza u biblioteku 	|
+
+### Forged Feedback
+![Promena UserId za Forged feedback izazov](forged_feedback.png)
+- Korišćenjem Burp Suite-a ispratimo pravi zahtev i u Repeater-u ponovimo isti sa drugim UserId
+|   Naziv klase napada	|   Težina napada	|   Objašnjenje	|   Uticaj ovog napada	|   Ranjivosti koje su uzrok	|   Kontramere	|
+|---	|---	|---	|---	|---	|---	|
+|   Broken Access Control	|   3	|   Postupak za rešavanje izazova je opisan iznad na slici 	|   Uticaj ovog napada bi mogao biti preuzimanje kontrole nad nalogom ili izvršavanja naredbi koje nisu dozvoljene u aplikaciji, krađa podataka 	|   Ranjivost koja dovodi do ovoga je loša provera ulaznih podataka i verifikacija tokena i user-a koji izvršava naredbe  	|   Kontramere su razne ali najvažnija je provera podataka i verifikacija korisnika koji vrši akciju i tokena 	|
