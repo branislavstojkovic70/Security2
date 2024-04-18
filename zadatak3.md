@@ -184,3 +184,76 @@ Koristeći e-mail adresu "jim@juice-sh.op" koja je dobijena iz recenzije proizvo
 | Naziv klase napada | Težina napada | Objašnjenje                                                                                                                                                              | Uticaj ovog napada                                                                    | Ranjivosti koje su uzrok                                                   | Kontramere                                                                                                                                |
 | ------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | SQL Injection      | 5             | E-mail adresa korisnika "jim@juice-sh.op" koristi se za izvršavanje SQL Injection napada dodavanjem SQL komentara (`'--`) u login formu. Ovo neutrališe proveru lozinke. | Napad omogućava neautorizovani pristup Jimovom nalogu bez potrebe za tačnom lozinkom. | Neadekvatna sanitacija unosa koji omogućava injektovanje štetnog SQL koda. | Implementacija parametrizovanih upita, upotreba ORM alata koji automatski sanitizuju unos, i redovna sigurnosna edukacija razvojnog tima. |
+
+## Veljko Bubnjević SV51-2020 zadaci:
+
+### **View Basket**
+
+Cilj je da vidimo potrošačku korpu drugog korisnika. 
+
+Slanjem HTTP zahteva sa identifikatorom korpe drugog korisnika možemo pristupiti njegovoj korpi.
+
+![View Basket](potrosacka_korpa.png)
+
+
+|Naziv klase napada|Težina napada|Objašnjenje|Uticaj ovog napada|Ranjivosti koje su uzrok|Kontramere|
+| :-: | :-: | :-: | :-: | :-: | :-: |
+|Broken Access Control|2|Ulogovali smo se kao 2 korisnika. Za oba korisnika su dodati artikli u korpu. Kada smo pristupili korpi prvog korisnika možemo videti iz konzole da je poslat HTTP GET zahtev za pristup korpi, pri čemu se vidi koji je identifikator korpe. Slanjem HTTP zahteva sa identifikatorom korpe drugog korisnika možemo pristupiti njegovoj korpi.|Napadač može da špijunira žrtve tokom kupovine, pri čemu može manipulisati artiklima i njihovom količinom.|Prilikom slanja GET zahteva za pristup korpi ne proverava se Token.|Proveravanje tokena prilikom slanja GET zahteva za pristup korisničkoj korpi.|
+
+### **Login Bender**
+
+Cilj je da se ulogujemo kao mušterija Bender koristeći *Injection* napad.
+
+Za prijavu koristi se "bender@juice-sh.op'--" u polju za e-mail i bilo koji tekst u polju za lozinku. Kako u SQL znak -- označava komentar koji nadoilazi, ostatak SQL koda koji bi proveravao lozinku bi se zakomentarisao. 
+
+
+
+|Naziv klase napada|Težina napada|Objašnjenje|Uticaj ovog napada|Ranjivosti koje su uzrok|Kontramere|
+| :-: | :-: | :-: | :-: | :-: | :-: |
+|Injection|3|Izvršava se logovanje korisnika bez provere lozinke jer se na kraju maila (username) dodaju specijalni karakteri '--" koji vrše zakomentarisanje ostatka koda. |Napadač može da se uloguje kao Bender bez potrebe da zna njegovu lozinku.|Ranjivost u ovom slučaju je nedostatak pravilne obrade korisničkog unosa prilikom formiranja SQL upita u aplikaciji za prijavu.|Korišćenje parametrizovanih upita umesto konkatenacije stringova, korišćenje firewall-a i drugo.|
+
+## **Admin Registration**
+
+Cilj napada je registracija običnog korisnika pri čemu će imati pristup adminovim privilegijama.
+
+Prilikom registracije novog korisnika možemo da uočimo atribut *role* koji se šalje pri zahtevu, pri čemu je automatski postavljen na *customer*. Izmenom vrednosti atributa sa *customer* na *admin* možemo dobiti iste privilegije kao admininistrator.
+
+![Role Customer](role_customer.png)
+![Add Admin](add_admin_insomnia.png)
+
+
+|Naziv klase napada|Težina napada|Objašnjenje|Uticaj ovog napada|Ranjivosti koje su uzrok|Kontramere|
+| :-: | :-: | :-: | :-: | :-: | :-: |
+|<p>Improper Input Validation</p><p></p>|3|Dodavanjem atributa *role* i postavljanjem vrednosti na *admin* pri slanju zahteva za registraciju može novo registrovani korisnik dobiti adminove privilegije.|Napadač može da dobije adminove privilegije prilikom registracije.|<br>Nedovoljna validacija korisničkog unosa, nedostatak autorizacije.|Implementacija sigurnosnih principa najmanjih privilegija, provera ovlašćenja prilikom svake akcije.|
+
+## **Privacy Policy Inspection**
+
+Treba dokazati da je pročitan Privacy and Policy. U opisu izazova je navedeno da se obrati pažnja na sve ‘hot’ delove teksta, tj. one kada mišem pređemo preko njih oni promene boju. Čitanjem teksta dobijamo niz sledećih reči koji su se osvetle kada se uradi hover sa mišem:
+*[http://localhost:3000, We, may, also, instruct, your, browser, to, refuse, all, reasonably, necessary, responsibility].* 
+Zatim konkatenacijom ovih stringova dobijamo URL adresu:
+<http://localhost:3000/we/may/also/instruct/you/to/refuse/all/reasonably/necessary/responsibility>
+
+Prikaz je sledeći:
+
+![Privacy policy owasp](owasp_juice_err.png)
+
+
+
+|Naziv klase napada|Težina napada|Objašnjenje|Uticaj ovog napada|Ranjivosti koje su uzrok|Kontramere|
+| :-: | :-: | :-: | :-: | :-: | :-: |
+|Security through Obscurity|3|Dokaz o pročitanosti politike privatnosti pronalaženjem skrivenih reči i mapiranjem njih na URL adresu.|Korisnici mogu biti izloženi riziku povrede privatnosti, jer se njihovi lični podaci mogu neovlašćeno koristiti ili distribuirati.|Omogućeno je napadaču da manipuliše URL-om kako bi otkrio skrivene delove aplikacije.|Izbegavati korišćenje URL zahteva koji mogu da se dobiju iz samog teksta politike i privatnosti.|
+
+### **Client-side XSS Protection**
+
+Cilj je izvrsavanje XSS napada sa  <iframe src="javascript:alert('xss')"\>
+ zaobilazeći sigurnosni mehanizam na strani klijenta. Kako je sam zahtev za novu registraciju klijenta ranjiv, presretanjem zahteva i slanem emaila koji je <iframe src="javascript:alert('xss')"\>
+ možemo da izazovemo XSS napad kada administrator pristupi stranici administracije.
+
+![Iframe insomnia](iframe_insomnia.png)
+![XSS alerted](xss_alerted.png)
+
+
+|Naziv klase napada|Težina napada|Objašnjenje|Uticaj ovog napada|Ranjivosti koje su uzrok|Kontramere|
+| :-: | :-: | :-: | :-: | :-: | :-: |
+|XSS|3|Izvršavanje XSS napade presretanjem zahteva za registraciju i slanje *iframe* kao email, koji se pojavljuje administratoru.|Mogućnost krađe kolačića administratora od strane napadača.|Mogućnost zaobilaženja provere unosa na klijentskoj strani aplikacije bez dodatne provere na serveru.|Enkodiranje HTML koda, korišćenje XSS zaštite na strani klijenta, provera valjanosti na klijentu se vrši i na serveru.|
+
