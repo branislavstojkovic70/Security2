@@ -139,17 +139,65 @@
  - Maintainability (Održivost): 240 Open issues
  #### Preporuke koje su bile zastupljene u izveštaju
  1. Remove Commented Out Code
+
+        <!--    <input type="file" class="file" name="avatar" formControlName="profilePicture" placeholder="Picture" [readonly]="true">-->
  2. Add Descriptions to Tables
+
+        <table mat-table [dataSource]="dataSource" style="background-color: #EBE8D7">
  3. Associate Form Labels with Controls
+
+        <div class="col">
+            <label>ID: </label>
+            <input type="text" [formControl]="form.controls.id" class="myInput2" readonly>
+        </div>
  4. Remove Unused Imports
+
+        import {Component, NgModule, ViewChild} from '@angular/core';
  5. Fix Unexpected Missing Generic Font Family
+
+        h2{
+            text-align: left;
+            padding-left: 10px;
+            font-family: Crete round;
+        }
+
  6. Address Deprecated Features
- 7. Implement CSRF Protection
- 8. Secure Storage of Sensitive Information
+
+        private getDrivers(request: { page?: string; size?: string; }) {
+            this.driverService.getAll(request)
+            .subscribe(data => {
+                this.drivers = data['results'];
+                this.totalElements = data['totalCount'];
+                }
+                , error => {
+                console.log(error.error.message);
+                }
+            );
+        }
+
+    - '(next?: ((value: { totalCount: number; results: Driver[]; }) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription' is deprecated.
  9. Implement Proper Error Handling
+        
+        error: (error) => {
+          reject(error);
+        },
  10. Address Accessibility Issues
+
+    <a>
+        <img src="../../assets/chart.png">
+        <p>Stats</p>
+    </a>
+
+    - Add an "alt" attribute to this image.
  11. Correct CSS Errors
- 12. Secure Data Transmission
+
+            margin-left: 0.7vh;
+            margin-right: 0.7vh;
+            color: #485162;
+            margin: 3rem;
+
+        - Unexpected shorthand "margin" after "margin-right"
+        
  #### Severity levels
  1. High: 23
  2. Medium: 184
