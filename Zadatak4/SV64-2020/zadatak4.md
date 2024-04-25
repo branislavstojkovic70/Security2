@@ -119,6 +119,6 @@ Implementacijom ovih meri možete značajno poboljšati sigurnost i upravljivost
 
 # Vreme koje je proveo svaki od članova tima (reviewer) pregledajući kod i broj defekata koji je identifikovao/la
 
-- Branislav Stojkovic SV64/2020 : približno 1h za pokretanje alata za statičku reviziju koda i oko 13h za ručno pregledanje koda
+- Branislav Stojkovic SV64/2020 : približno 1h za pokretanje alata za statičku reviziju koda SonarQube i oko 13h za ručno pregledanje koda
 
 ### Nedostatak Čuvanja Logova bez Filtriranja
