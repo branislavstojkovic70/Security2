@@ -115,10 +115,6 @@ Da bi se poboljšala sigurnost i efikasnost logovanja, preporučuje se sledeće:
 
 6. **Obuka zaposlenih**: Obrazujte zaposlene o važnosti sigurnosti logova i potencijalnim rizicima povezanim sa neadekvatnim rukovanjem log fajlovima.
 
-Implementacijom ovih meri možete značajno poboljšati sigurnost i upravljivost logovanja u vašem projektu, minimizirajući rizike i povećavajući efikasnost operacija.
-
 # Vreme koje je proveo svaki od članova tima (reviewer) pregledajući kod i broj defekata koji je identifikovao/la
 
 - Branislav Stojkovic SV64/2020 : približno 1h za pokretanje alata za statičku reviziju koda SonarQube i oko 13h za ručno pregledanje koda
-
-### Nedostatak Čuvanja Logova bez Filtriranja
