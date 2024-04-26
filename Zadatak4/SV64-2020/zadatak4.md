@@ -92,7 +92,7 @@ U konfiguracijskom fajlu, sledeći unosi sadrže osetljive podatke koji ne bi tr
 
 ### Preporučene Prakse za Upravljanje Kredencijalima
 
-- **Korišćenje okruženjskih promenljivih**: Osetljivi podaci bi trebali biti postavljeni kao okruženjske promenljive na serveru. Ovo omogućava da aplikacija čita ove podatke iz okruženja umesto da budu direktno u kodu.
+- **Korišćenje okruženjskih promenljivih**: Osetljivi podaci bi trebali biti postavljeni kao promenljive okruženja na serveru. Ovo omogućava da aplikacija čita ove podatke iz okruženja umesto da budu direktno u kodu.
 - **Korišćenje servisa za upravljanje tajnama**: Alati kao što su HashiCorp Vault, AWS Secrets Manager, ili Azure Key Vault omogućavaju sigurno skladištenje i upravljanje pristupom osetljivim konfiguracijskim podacima.
 
 - **Enkripcija**: Ako morate da čuvate osetljive podatke unutar projekta, koristite snažnu enkripciju za zaštitu tih podataka.
