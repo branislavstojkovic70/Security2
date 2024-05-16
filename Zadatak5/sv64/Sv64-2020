@@ -1,0 +1,193 @@
+![](1.png)
+![Slika](2.png)
+
+````markdown
+# Secure Deployment Environment
+
+## 1. Priprema
+
+### Instalacija Virtualne Mašine
+
+- **Screenshot:** Pokrenuta virtualna mašina sa instaliranim OS-om.
+
+### Pokretanje Terminala
+
+- Pokrenite terminal na vašem virtualnom mašini.
+
+## 2. Pokretanje Fiktivnog Projekta (HTTP server)
+
+### Instalacija Apache Web Server-a
+
+```bash
+sudo apt update
+sudo apt install apache2
+```
+````
+
+![Slika](3.png)
+![Slika](4.png)
+
+![Slika](7.png)
+
+## 2. Konfiguracija Firewall-a
+
+### Podešavanje UFW Firewall-a
+
+```bash
+sudo ufw allow 'Apache Full'
+sudo ufw allow ssh
+sudo ufw enable
+```
+
+![Slika](8.png)
+
+## 4. SSH Konfiguracija
+
+### Generisanje SSH Ključeva na vašem lokalnom računaru
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+![Slika](9.png)
+
+### Kopiranje Javnog Ključa na Server
+
+```bash
+ssh-copy-id user@your_server_ip
+```
+
+![Slika](10.png)
+
+## 5. Pregled i Očvršćavanje Sistema
+
+### Pokretanje Lynis-a za Pregled Sistema
+
+```bash
+sudo apt install lynis
+sudo lynis audit system
+```
+
+![Slika](26.png)
+
+## 6. Izvlačenje i Kreking Heša Lozinke
+
+### Kreking Lozinke Koristeći John the Ripper
+
+```bash
+sudo apt install john
+sudo john --wordlist=/usr/share/wordlists/rockyou.txt extracted_hash.txt
+```
+
+![Slika](29.png)
+
+## 7. Beleženje Akcija
+
+### Pokretanje Screen-a za Logovanje
+
+```bash
+screen
+Ctrl-a + H
+```
+
+## 8. Provera Verzije OS-a i Kernel-a
+
+### Provera Verzije OS-a
+
+```bash
+lsb_release -a
+```
+
+### Provera Verzije Kernel-a
+
+```bash
+uname -r
+```
+
+![Slika](30.png)
+
+## 9. Sinhronizacija Vremena
+
+### Provera NTP Konfiguracije
+
+```bash
+timedatectl status
+```
+
+![Slika](12.png)
+
+## 10. Provera Instaliranih Paketa
+
+### Prikaz Liste Instaliranih Paketa
+
+```bash
+dpkg -l
+```
+
+## 11. Pregled Mrežne Konfiguracije
+
+### Provera Mrežnih Interfejsa
+
+```bash
+ifconfig -a
+```
+
+### Provera Rute
+
+```bash
+route -n
+```
+
+## 13. Provera Firewall Pravila
+
+### Prikaz Iptables Pravila
+
+```bash
+sudo iptables -L -v
+```
+
+## 14. Pregled Filesystem-a
+
+### Provera Montiranih Particija
+
+```bash
+cat /etc/fstab
+```
+
+## 15. Provera Dozvola na Osjetljivim Fajlovima
+
+### Provera Dozvola na /etc/shadow
+
+```bash
+ls -l /etc/shadow
+```
+
+## 16. Pregled Korisničkih Naloga
+
+### Provera /etc/passwd Fajla
+
+```bash
+cat /etc/passwd
+```
+
+### Provera /etc/shadow Fajla
+
+```bash
+sudo cat /etc/shadow
+```
+
+## 17. Provera Sudo Konfiguracije
+
+### Provera /etc/sudoers Fajla
+
+```bash
+sudo cat /etc/sudoers
+```
+
+## 18. Finalni Pregled
+
+### Pokretanje Završnog Lynis Pregleda
+
+```bash
+sudo lynis audit system
+```
