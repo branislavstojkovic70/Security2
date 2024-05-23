@@ -87,9 +87,7 @@
 
 ## SV51/2020 Veljko Bubnjević
 
-## Prepoznavanje koordinata lokacije sa fotografije
-
-### 9. Data je fotografija:
+#### 9. Data je fotografija:
 
 ![](image.jpg)
 
@@ -108,7 +106,7 @@ U pitanju je adresa: Save Šumanovića 2, 2240 Šid Srbija. Potom je adresa unet
 ![](Screenshot2.png)
 
 
-### 10. Data je fotografija:
+#### 10. Data je fotografija:
 
 ![](image2.jpg)
 
