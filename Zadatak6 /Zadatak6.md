@@ -86,3 +86,46 @@
 - Poslednji commit je updateovao flag u fileu `index.html`
 
 ## SV51/2020 Veljko Bubnjević
+
+## Prepoznavanje koordinata lokacije sa fotografije
+
+### 9. Data je fotografija:
+
+![](image.jpg)
+
+Potrebno je pronaći lokaciju ovog mesta sa fotografije u obliku njenih koordinata.
+
+Na, početku slika je uneta u Google Lens i bilo je potrebno pronaći fotografiju koja najbliže odgovara ovoj fotografiji:
+
+![](Screenshot6.png)
+
+Kada je pronađena fotografija, posetili smo sajt na kom se fotografija nalazi i pronašli adresu ove lokacije:
+
+![](Screenshot1.png)
+
+U pitanju je adresa: Save Šumanovića 2, 2240 Šid Srbija. Potom je adresa uneta u GEOCORDS i dobili smo koordinate lokacije: UNS{45.1265207, 19.2297274}
+
+![](Screenshot2.png)
+
+
+### 10. Data je fotografija:
+
+![](image2.jpg)
+
+
+Potrebno je pronaći lokaciju ovog mesta sa fotografije u obliku njenih koordinata.
+
+Prvo smo koristili Google Lens kako bismo dobili informaciju o pretpostavki gde bi ova fotografija bila uslikana (na fotografiji se nazira ispis *Google*- slika se nalazi na Google Maps). Pretpostavka koja je dobijena je da je u pitanju Zaovinsko jezero.
+
+![](Screenshot4.png)
+
+
+
+Zatim smo poseliti Google Maps i pronašli Zaovinsko jezero ručnom pretragom kako bismo bili sigurni da je u pitnanju područje sa ove fotografije.  Pronađena je identična slika koja je uslikana 2022 gudine u opciji Layers, i dobijene su koordinate: UNS{43.8704940, 19.3853250}
+
+![](Screenshot5.png)
+
+
+
+
+
