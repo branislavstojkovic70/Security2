@@ -40,11 +40,12 @@ def upload_file():
             if tarfile.is_tarfile(upload_path):
                 with tarfile.open(upload_path) as tar:
                     tar.extractall(path=desktop_path)
+                    extracted_files = [os.path.abspath(os.path.join(desktop_path, member.name)) for member in tar.getmembers()]
 
-                # # Opcionalno: obrisati tar fajl nakon ekstrakcije
+                # Opcionalno: obrisati tar fajl nakon ekstrakcije
                 # os.remove(upload_path)
 
-                return "File uploaded and extracted to Desktop"
+                return f"File uploaded and extracted to Desktop. Extracted files:<br>" + "<br>".join(extracted_files)
             else:
                 return "Not a tar file"
 
