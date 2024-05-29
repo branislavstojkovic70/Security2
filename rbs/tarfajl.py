@@ -11,7 +11,7 @@ with open(malicious_content_path, 'wb') as f:
     f.write(content)
 
 with tarfile.open(malicious_tar_path, 'w') as tar:
-    tarinfo = tarfile.TarInfo(name='malicious_file.txt')
+    tarinfo = tarfile.TarInfo(name='../../../../tmp/malicious_file.txt')
     tarinfo.size = len(content)
     with open(malicious_content_path, 'rb') as f:
         tar.addfile(tarinfo, fileobj=f)

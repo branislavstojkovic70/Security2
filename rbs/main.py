@@ -38,14 +38,15 @@ def upload_file():
             file.save(upload_path)
 
             if tarfile.is_tarfile(upload_path):
+                extracted_files = []
                 with tarfile.open(upload_path) as tar:
-                    tar.extractall(path=desktop_path)
-                    extracted_files = [os.path.abspath(os.path.join(desktop_path, member.name)) for member in tar.getmembers()]
+                    for member in tar.getmembers():
+                        tar.extract(member, path=desktop_path)
+                        extracted_files.append(os.path.join(desktop_path, member.name))
 
-                # Opcionalno: obrisati tar fajl nakon ekstrakcije
                 # os.remove(upload_path)
 
-                return f"File uploaded and extracted to Desktop. Extracted files:<br>" + "<br>".join(extracted_files)
+                return "File uploaded and extracted to Desktop. Extracted files:\n" + "\n".join(extracted_files)
             else:
                 return "Not a tar file"
 
