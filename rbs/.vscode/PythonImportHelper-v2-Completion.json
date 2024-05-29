@@ -1,0 +1,107 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template_string",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "tarfile",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "tarfile",
+        "description": "tarfile",
+        "detail": "tarfile",
+        "documentation": {}
+    },
+    {
+        "label": "upload_file",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def upload_file():\n    if request.method == 'POST':\n        if 'file' not in request.files:\n            return \"No file part\"\n        file = request.files['file']\n        if file.filename == '':\n            return \"No selected file\"\n        if file:\n            desktop_path = os.path.join(os.path.expanduser(\"~\"), \"Desktop\")\n            upload_path = os.path.join(desktop_path, file.filename)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = Flask(__name__)\nhtml_form = '''\n<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>Upload a file</title>\n  </head>\n  <body>\n    <h1>Upload a tar file</h1>",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "html_form",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "html_form = '''\n<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <title>Upload a file</title>\n  </head>\n  <body>\n    <h1>Upload a tar file</h1>\n    <form method=\"post\" enctype=\"multipart/form-data\">",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "content",
+        "kind": 5,
+        "importPath": "tarfajl",
+        "description": "tarfajl",
+        "peekOfCode": "content = b\"Ovo je maliciozni sadrzaj.\"\ndesktop_path = os.path.join(os.path.expanduser(\"~\"), \"Desktop\")\nmalicious_tar_path = os.path.join(desktop_path, \"malicious.tar\")\nmalicious_content_path = 'malicious_content.txt'\nwith open(malicious_content_path, 'wb') as f:\n    f.write(content)\nwith tarfile.open(malicious_tar_path, 'w') as tar:\n    tarinfo = tarfile.TarInfo(name='malicious_file.txt')\n    tarinfo.size = len(content)\n    with open(malicious_content_path, 'rb') as f:",
+        "detail": "tarfajl",
+        "documentation": {}
+    },
+    {
+        "label": "desktop_path",
+        "kind": 5,
+        "importPath": "tarfajl",
+        "description": "tarfajl",
+        "peekOfCode": "desktop_path = os.path.join(os.path.expanduser(\"~\"), \"Desktop\")\nmalicious_tar_path = os.path.join(desktop_path, \"malicious.tar\")\nmalicious_content_path = 'malicious_content.txt'\nwith open(malicious_content_path, 'wb') as f:\n    f.write(content)\nwith tarfile.open(malicious_tar_path, 'w') as tar:\n    tarinfo = tarfile.TarInfo(name='malicious_file.txt')\n    tarinfo.size = len(content)\n    with open(malicious_content_path, 'rb') as f:\n        tar.addfile(tarinfo, fileobj=f)",
+        "detail": "tarfajl",
+        "documentation": {}
+    },
+    {
+        "label": "malicious_tar_path",
+        "kind": 5,
+        "importPath": "tarfajl",
+        "description": "tarfajl",
+        "peekOfCode": "malicious_tar_path = os.path.join(desktop_path, \"malicious.tar\")\nmalicious_content_path = 'malicious_content.txt'\nwith open(malicious_content_path, 'wb') as f:\n    f.write(content)\nwith tarfile.open(malicious_tar_path, 'w') as tar:\n    tarinfo = tarfile.TarInfo(name='malicious_file.txt')\n    tarinfo.size = len(content)\n    with open(malicious_content_path, 'rb') as f:\n        tar.addfile(tarinfo, fileobj=f)\nos.remove(malicious_content_path)",
+        "detail": "tarfajl",
+        "documentation": {}
+    },
+    {
+        "label": "malicious_content_path",
+        "kind": 5,
+        "importPath": "tarfajl",
+        "description": "tarfajl",
+        "peekOfCode": "malicious_content_path = 'malicious_content.txt'\nwith open(malicious_content_path, 'wb') as f:\n    f.write(content)\nwith tarfile.open(malicious_tar_path, 'w') as tar:\n    tarinfo = tarfile.TarInfo(name='malicious_file.txt')\n    tarinfo.size = len(content)\n    with open(malicious_content_path, 'rb') as f:\n        tar.addfile(tarinfo, fileobj=f)\nos.remove(malicious_content_path)\nprint(f\"Maliciozni tar arhiv kreiran i sačuvan na: {malicious_tar_path}\")",
+        "detail": "tarfajl",
+        "documentation": {}
+    }
+]
