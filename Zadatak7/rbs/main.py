@@ -42,11 +42,11 @@ def upload_file():
                 with tarfile.open(upload_path) as tar:
                     for member in tar.getmembers():
                         tar.extract(member, path=desktop_path)
-                        extracted_files.append(os.path.join(desktop_path, member.name))
+                        extracted_files.append(os.path.abspath(os.path.join(desktop_path, member.name)))
 
                 # os.remove(upload_path)
 
-                return "File uploaded and extracted to Desktop. Extracted files:\n" + "\n".join(extracted_files)
+                return "File uploaded and extracted to Desktop. Extracted files:<br>" + "<br>".join(extracted_files)
             else:
                 return "Not a tar file"
 
