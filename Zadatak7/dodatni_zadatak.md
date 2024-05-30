@@ -54,3 +54,74 @@ Nakon što smo otpremili tar fajl, proverili smo da li su fajlovi ekstraktovani 
 ## Zaključak
 
 Uspeli smo da kreiramo Flask aplikaciju koja omogućava otpremanje i ekstrakciju tar fajlova na desktop korisnika. Takođe smo uspešno testirali kako aplikacija reaguje na maliciozne tar fajlove koji koriste prelazak direktorijuma. Aplikacija je ispravno obradila i ekstraktovala fajlove, a poruke su jasno prikazale gde su fajlovi ekstraktovani.
+
+
+# Veljko Bubnjević SV51-2020
+
+### Implementacija Ranjivosti
+
+- Kreirana je jednostavna web aplikacija pomoću *Flask* biblioteke u
+  programskom jeziku Python
+
+- Napravljen je jednostavan frontend sa HTML, CSS i JavaScriptom koji
+  omogućava upload *tar* arhive.
+
+- Implementirana je ruta za prijem upload-ovane arhive i ekstrakciju
+  fajlova bez validacije putanja
+
+### Analiza ranjivosti
+
+- Identifikovana je ranjivost CVE-2007-4559, koja se odnosi na
+  ekstrakciju *tar* arhive bez validacije putanja.
+
+- Ova ranjivost omogućava napadaču da izvrši ekstrakciju fajlova izvan
+  ciljanog direktorijuma, što može dovesti do korišćenja sistema ili
+  krađe podataka.
+
+### Kreiranje malicioznog fajla:
+
+- Koristeći skriptu *make_tar_file.py* napravljen je *malicious.txt*
+  fajl, koji je privremeno smešten u direktorijum u kom se nalazi sama
+  aplikacija
+```
+  os.makedirs('malicious/var/www/html', exist_ok=True)
+with open('malicious/var/www/html/malicious.txt', 'w') as f:
+    f.write('This is a malicious file')
+with tarfile.open('malicious.tar', 'w') as tar:
+    tar.add('malicious/var/www/html/malicious.txt', arcname='/var/www/html/malicious.txt')
+  ```
+
+### Postavljanje napada:
+
+- Napadač kreira malicioznu *tar* arhivu sa malicioznim fajlom
+  (*malicious.txt*) i putanjom koja izlazi van ciljanog direktorijuma
+  (*/var/www/html/).*
+
+- Koristeći ranjivu tačku za *upload* na web aplikaciji, napadač
+  uploaduje malicioznu arhivu (*malicious.tar*).
+
+![Upload image](SV51-2020/upload.png)
+
+- Arhiva se uspešno ekstraktuje na serveru bez ikakve validacije
+  putanja. Ovo je urađeno upotrebom *shutil.move* metode koja prima dva
+  parametra, *src_path –* lokacija kreiranog malicioznog fajla,
+  *dst_path –* lokacija gde treba maliciozni fajl da se ekstrahuje
+``` shutil.move(src_path, dst_path)```
+
+- Maliciozni fajl se nalazi na neželjenoj lokaciji, van ciljanog
+  direktorijuma (*/var/www/html/).*
+
+- Na ekranu se ispisuje informacija ako se zaista fajl zaista nalazi izvan ciljnog direktorijuma
+![Upload image](SV51-2020/info.png)
+
+
+### Zaključak:
+
+- CVE-2007-4559 ranjivost je uspešno iskorišćena u aplikaciji koja
+  omogućava ekstrakciju *tar* arhive bez validacije putanja.
+
+- Ovaj napad omogućava napadaču da uđe u sistem i izvrši zlonamerne
+  radnje kao što su krađa podataka ili kontrola servera.
+
+- Aplikacija bi trebalo da implementira validaciju putanja prilikom
+  ekstrakcije arhive kako bi se sprečila ovakva vrsta napada.
