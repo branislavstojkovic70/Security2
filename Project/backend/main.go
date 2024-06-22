@@ -4,12 +4,16 @@ import (
     "fmt"
     "log"
     "os"
+    "github.com/joho/godotenv"
     "github.com/syndtr/goleveldb/leveldb"
 )
 
 func main() {
+	err := godotenv.Load()
     leveldbHost := os.Getenv("LEVELDB_HOST")
     leveldbPort := os.Getenv("LEVELDB_PORT")
+	fmt.Println(leveldbHost)
+	fmt.Println(leveldbPort)
 
     if leveldbHost == "" {
         leveldbHost = "leveldb-server"
