@@ -3,3 +3,6 @@ clock: 1
 leave
 clock: 2
 alive: ade29e55b1d4 172.17.0.2:8303
+clock: 3
+leave
+clock: 4
