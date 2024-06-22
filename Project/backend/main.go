@@ -4,16 +4,19 @@ import (
     "fmt"
     "log"
     "os"
+    "path/filepath"
     "github.com/joho/godotenv"
     "github.com/syndtr/goleveldb/leveldb"
 )
 
 func main() {
-	err := godotenv.Load()
+    err := godotenv.Load()
+    if err != nil {
+        log.Fatalf("Error loading .env file")
+    }
+
     leveldbHost := os.Getenv("LEVELDB_HOST")
     leveldbPort := os.Getenv("LEVELDB_PORT")
-	fmt.Println(leveldbHost)
-	fmt.Println(leveldbPort)
 
     if leveldbHost == "" {
         leveldbHost = "leveldb-server"
@@ -22,7 +25,9 @@ func main() {
         leveldbPort = "2012"
     }
 
-    dbPath := fmt.Sprintf("http://%s:%s", leveldbHost, leveldbPort)
+    dbDir := "leveldb"
+    dbPath := filepath.Join(dbDir, fmt.Sprintf("%s:%s", leveldbHost, leveldbPort))
+
     fmt.Println("Connecting to LevelDB at", dbPath)
     db, err := leveldb.OpenFile(dbPath, nil)
     if err != nil {
