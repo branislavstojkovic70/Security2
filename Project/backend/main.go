@@ -15,18 +15,13 @@ func main() {
         log.Fatalf("Error loading .env file")
     }
 
-    leveldbHost := os.Getenv("LEVELDB_HOST")
-    leveldbPort := os.Getenv("LEVELDB_PORT")
+    leveldbDir := os.Getenv("LEVELDB_DIR")
 
-    if leveldbHost == "" {
-        leveldbHost = "leveldb-server"
-    }
-    if leveldbPort == "" {
-        leveldbPort = "2012"
+    if leveldbDir == "" {
+        leveldbDir = "leveldb-data"
     }
 
-    dbDir := "leveldb"
-    dbPath := filepath.Join(dbDir, fmt.Sprintf("%s:%s", leveldbHost, leveldbPort))
+    dbPath := filepath.Join(leveldbDir)
 
     fmt.Println("Connecting to LevelDB at", dbPath)
     db, err := leveldb.OpenFile(dbPath, nil)
