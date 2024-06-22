@@ -1,0 +1,34 @@
+alive: docker-desktop 127.0.0.1:8301
+clock: 1
+leave
+alive: docker-desktop 127.0.0.1:8301
+clock: 1
+leave
+clock: 2
+alive: docker-desktop 127.0.0.1:8301
+clock: 3
+leave
+clock: 4
+alive: docker-desktop 127.0.0.1:8306
+alive: docker-desktop 127.0.0.1:8305
+clock: 5
+leave
+clock: 6
+alive: docker-desktop 127.0.0.1:8306
+alive: docker-desktop 127.0.0.1:8305
+clock: 7
+event-clock: 1
+clock: 7
+leave
+leave
+clock: 8
+alive: docker-desktop 192.168.65.4:8306
+alive: docker-desktop 127.0.0.1:8305
+clock: 9
+event-clock: 1
+leave
+leave
+clock: 9
+alive: 8effdb26729b 172.17.0.2:8301
+clock: 10
+event-clock: 1
