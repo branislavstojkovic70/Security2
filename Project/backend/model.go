@@ -45,6 +45,11 @@ func initConsul() error {
     return err
 }
 
+func createACLEntry(object, relation, user string) error {
+    key := fmt.Sprintf("%s#%s@%s", object, relation, user)
+    return db.Put([]byte(key), []byte{}, nil)
+}
+
 func handleACL(w http.ResponseWriter, r *http.Request) {
     if r.Method != http.MethodPost {
         http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -58,11 +63,30 @@ func handleACL(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    key := fmt.Sprintf("%s#%s@%s", acl.Object, acl.Relation, acl.User)
-    err = db.Put([]byte(key), []byte{}, nil)
+    err = createACLEntry(acl.Object, acl.Relation, acl.User)
     if err != nil {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
+    }
+
+    switch acl.Relation {
+    case "owner":
+        err = createACLEntry(acl.Object, "editor", acl.User)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+        err = createACLEntry(acl.Object, "viewer", acl.User)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
+    case "editor":
+        err = createACLEntry(acl.Object, "viewer", acl.User)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+        }
     }
 
     w.WriteHeader(http.StatusCreated)

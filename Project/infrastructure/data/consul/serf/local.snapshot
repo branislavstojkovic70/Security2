@@ -37,3 +37,6 @@ alive: d98b32d17a97 172.17.0.3:8301
 clock: 1
 event-clock: 1
 leave
+alive: 7a42ca8df2bc 172.17.0.3:8301
+clock: 1
+event-clock: 1
