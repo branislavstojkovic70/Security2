@@ -6,3 +6,12 @@ alive: ade29e55b1d4 172.17.0.2:8303
 clock: 3
 leave
 clock: 4
+alive: 6365b3d81eab 172.18.0.3:8303
+clock: 1
+leave
+clock: 2
+alive: 85d3a9b4b92a 172.18.0.3:8303
+clock: 3
+leave
+clock: 4
+alive: 85d3a9b4b92a 172.18.0.3:8303

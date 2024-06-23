@@ -37,3 +37,15 @@ alive: d98b32d17a97 172.17.0.3:8301
 clock: 1
 event-clock: 1
 leave
+alive: cdc184dd4521 172.18.0.4:8301
+clock: 1
+event-clock: 1
+leave
+alive: cdc184dd4521 172.18.0.4:8301
+clock: 1
+event-clock: 1
+leave
+clock: 2
+alive: cdc184dd4521 172.18.0.4:8301
+clock: 3
+event-clock: 1

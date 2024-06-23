@@ -37,6 +37,7 @@ func main() {
     http.HandleFunc("/acl", handleACL)
     http.HandleFunc("/acl/check", handleACLCheck)
     http.HandleFunc("/namespace", handleNamespace)
+    http.HandleFunc("/namespace/get", handleGetNamespace)
 
     fmt.Println("Server is running on port 8080")
     log.Fatal(http.ListenAndServe(":8080", nil))

@@ -6,6 +6,7 @@ import (
     "net/http"
     "github.com/syndtr/goleveldb/leveldb"
     "github.com/hashicorp/consul/api"
+    "strings"
 )
 
 type ACL struct {
@@ -68,20 +69,60 @@ func handleACL(w http.ResponseWriter, r *http.Request) {
     w.WriteHeader(http.StatusCreated)
 }
 
+func checkACL(object, relation, user string) (bool, error) {
+    // Prvo proverite direktnu relaciju
+    key := fmt.Sprintf("%s#%s@%s", object, relation, user)
+    _, err := db.Get([]byte(key), nil)
+    if err == nil {
+        return true, nil
+    }
+
+    // Ako relacija nije direktna, proverite computed_userset
+    namespaceKey := "" + strings.Split(object, ":")[0]
+    kv, _, err := consulClient.KV().Get(namespaceKey, nil)
+    if err != nil || kv == nil {
+        return false, fmt.Errorf("namespace not found")
+    }
+
+    var namespace Namespace
+    err = json.Unmarshal(kv.Value, &namespace)
+    if err != nil {
+        return false, fmt.Errorf("failed to unmarshal namespace: %v", err)
+    }
+
+    relationDef, exists := namespace.Relations[relation]
+    if !exists {
+        return false, fmt.Errorf("relation not found")
+    }
+
+    for _, rel := range relationDef.Union {
+        if _, exists := rel["this"]; exists {
+            // Do nothing, already checked the direct relation
+        } else if computedUserset, exists := rel["computed_userset"]; exists {
+            computedRel := computedUserset.(map[string]interface{})
+            computedRelation := computedRel["relation"].(string)
+            if result, err := checkACL(object, computedRelation, user); result && err == nil {
+                return true, nil
+            }
+        }
+    }
+
+    return false, nil
+}
+
 func handleACLCheck(w http.ResponseWriter, r *http.Request) {
     object := r.URL.Query().Get("object")
     relation := r.URL.Query().Get("relation")
     user := r.URL.Query().Get("user")
 
-    key := fmt.Sprintf("%s#%s@%s", object, relation, user)
-    _, err := db.Get([]byte(key), nil)
+    authorized, err := checkACL(object, relation, user)
     if err != nil {
         http.Error(w, "Unauthorized", http.StatusUnauthorized)
         return
     }
 
     w.WriteHeader(http.StatusOK)
-    json.NewEncoder(w).Encode(map[string]bool{"authorized": true})
+    json.NewEncoder(w).Encode(map[string]bool{"authorized": authorized})
 }
 
 func handleNamespace(w http.ResponseWriter, r *http.Request) {
@@ -112,4 +153,22 @@ func handleNamespace(w http.ResponseWriter, r *http.Request) {
     }
 
     w.WriteHeader(http.StatusCreated)
+}
+
+func handleGetNamespace(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodGet {
+        http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+        return
+    }
+
+    namespace := r.URL.Query().Get("namespace")
+    key := "" + namespace
+    kv, _, err := consulClient.KV().Get(key, nil)
+    if err != nil || kv == nil {
+        http.Error(w, "Namespace not found", http.StatusNotFound)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.Write(kv.Value)
 }
