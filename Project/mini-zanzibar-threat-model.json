@@ -337,8 +337,8 @@
             },
             "visible": true,
             "shape": "actor",
-            "id": "38c08a99-8bc1-4b46-8d23-8747f350625e",
             "zIndex": 11,
+            "id": "38c08a99-8bc1-4b46-8d23-8747f350625e",
             "data": {
               "type": "tm.Actor",
               "name": "User",
@@ -411,8 +411,8 @@
             },
             "visible": true,
             "shape": "store",
-            "id": "4850cb23-4ca4-4c12-afb4-67a903ba0f52",
             "zIndex": 13,
+            "id": "4850cb23-4ca4-4c12-afb4-67a903ba0f52",
             "data": {
               "type": "tm.Store",
               "name": "Level DB",
@@ -444,8 +444,8 @@
             },
             "visible": true,
             "shape": "td-text-block",
-            "id": "f88aacec-6154-441e-89f5-7dcec1807c50",
             "zIndex": 15,
+            "id": "f88aacec-6154-441e-89f5-7dcec1807c50",
             "data": {
               "type": "tm.Text",
               "name": "Web Post Request (HTTP)",
@@ -476,8 +476,8 @@
             },
             "visible": true,
             "shape": "store",
-            "id": "2de02480-a0a9-44b2-b4bb-e4a15bf82757",
             "zIndex": 16,
+            "id": "2de02480-a0a9-44b2-b4bb-e4a15bf82757",
             "data": {
               "type": "tm.Store",
               "name": "Consul",
@@ -509,13 +509,13 @@
             },
             "visible": true,
             "shape": "td-text-block",
+            "zIndex": 17,
             "id": "c48e6168-3fdb-477f-a31e-cf0db8e0ba35",
             "data": {
               "type": "tm.Text",
               "name": "HTTP Response",
               "hasOpenThreats": false
-            },
-            "zIndex": 17
+            }
           },
           {
             "position": {
@@ -533,8 +533,8 @@
             },
             "visible": true,
             "shape": "td-text-block",
-            "id": "709ea586-70a1-4f50-b658-cad134e53e4f",
             "zIndex": 18,
+            "id": "709ea586-70a1-4f50-b658-cad134e53e4f",
             "data": {
               "type": "tm.Text",
               "name": "ACL Data Read",
@@ -557,8 +557,8 @@
             },
             "visible": true,
             "shape": "td-text-block",
-            "id": "ff83726c-cf4b-414a-b308-f50200f9efc9",
             "zIndex": 19,
+            "id": "ff83726c-cf4b-414a-b308-f50200f9efc9",
             "data": {
               "type": "tm.Text",
               "name": "ACL Data Write",
@@ -567,7 +567,7 @@
           },
           {
             "position": {
-              "x": 740,
+              "x": 720,
               "y": 140
             },
             "size": {
@@ -581,19 +581,12 @@
             },
             "visible": true,
             "shape": "td-text-block",
-            "id": "e429dcd9-ac91-4268-bdfa-aa9c08eced23",
+            "id": "572d99ab-00e4-4aca-af0f-6992ef5ec11b",
             "zIndex": 20,
             "data": {
               "type": "tm.Text",
               "name": "Namespace Data Write",
               "hasOpenThreats": false
-            },
-            "tools": {
-              "items": [
-                "boundary",
-                "button-remove"
-              ],
-              "name": null
             }
           }
         ],
